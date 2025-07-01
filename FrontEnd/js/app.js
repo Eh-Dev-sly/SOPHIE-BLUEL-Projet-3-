@@ -8,20 +8,21 @@ async function getWorks () {
       throw new Error(`Response status: ${response.status}`);
     }
 
-    const work = await response.json();
-    console.log(work, "test123");
-    figureWork(work);
+    const works = await response.json();
+    console.log(works, "test123");
+    for (let i = 0; i < works.length ; i++) {
+        figureWork(works[i]);
+    }
   } catch (error) {
     console.error(error.message);
   }
 }
 
 function figureWork(data) {
-    
     const gallery = document.querySelector(".gallery");
 
     const figure = document.createElement("figure");
-    figure.innerHTML = `<img src=${data[0].imageUrl} alt=${data[0].title}> <figcaption>${data[0].title}</figcaption>`;
+    figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}> <figcaption>${data.title}</figcaption>`;
 
     gallery.appendChild(figure);
 }
