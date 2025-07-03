@@ -9,7 +9,7 @@ async function getWorks () {
     }
 
     const works = await response.json();
-    console.log(works, "test123");
+    console.log(works);
     for (let i = 0; i < works.length ; i++) {
         figureWork(works[i]);
     }

@@ -121,10 +121,47 @@ li:hover {
 #introduction p {
 	margin-bottom: 0.5em;
 }
+#portfolio{
+	display: flex;
+	flex-direction: column;
+	margin: auto;
+	width: 100%;
+	align-items: center;
+}
 #portfolio h2 {
 	text-align: center;
 	margin-bottom: 1em;
 }
+
+.filter {
+	display: flex;
+	width: fit-content;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 51px;
+	flex-wrap: wrap;
+}
+.filter button {
+  font-family: 'Syne';
+  font-size: 16px;
+  font-weight: 700;
+  color: #1D6154;
+  background-color: transparent;
+  border: 1px solid #1D6154;
+  padding: 10px 20px;
+  border-radius: 60px;
+  height: 37px;
+  display: flex;      
+  align-items: center;      
+  justify-content: center; 
+}
+.filter button:hover {
+  background-color: #1D6154;
+  color: white;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
