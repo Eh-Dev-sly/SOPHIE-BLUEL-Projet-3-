@@ -11,6 +11,12 @@
 	<link rel="stylesheet" href="./assets/style.css">
 	<script src="./js/app.js" defer></script>
 <body>
+<section class="editor_mode">
+	<div class="editor_mode-container">
+		<img src="assets/icons/editor_w.svg" alt="icone du mode éditeur" class="editor_mode-icons">
+		<p class="editor_mode-text">Mode édition</p>
+	</div>
+</section>
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
@@ -18,7 +24,7 @@
 			<li>projets</li>
 			<li>contact</li>
 			<li><a href="login.html">login</a></li>
-			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
+			<li><img src="./assets/icons/instagram.svg" alt="Instagram"></li>
 		</ul>
 	</nav>
 </header>
@@ -35,7 +41,13 @@
 		</article>
 	</section>
 	<section id="portfolio">
-		<h2>Mes Projets</h2>
+		<div class="portfolio_header">
+			<h2>Mes projets</h2>
+			<div class="btn_editor">
+				<img src="assets/icons/editor_b.svg" alt="icone du mode éditeur" class="editor_mode-icons">
+				<p>modifier</p>
+			</div>
+		</div>
 		<div class="filter">
 			<button class="btn_all">Tous</button>
 		</div>
@@ -55,7 +67,6 @@
 		</form>
 	</section>
 </main>
-
 <footer>
 	<nav>
 		<ul>
