@@ -9,6 +9,7 @@
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
 	<link rel="stylesheet" href="./assets/style.css">
+	<link rel="stylesheet" href="./assets/modal.css">
 	<script src="./js/app.js" defer></script>
 <body>
 <section class="editor_mode">
@@ -48,6 +49,14 @@
 				<p>modifier</p>
 			</div>
 		</div>
+		<aside id="modal_editor" class="modal_editor" aria-hidden="true" role="dialog" aria-modal="false" aria-labelledby="modal_title">
+			<div class="modal_editor-container">
+				<img src="assets/icons/xmark.svg" alt="x mark" id="modal_close">
+				<h1 id="modal_title">Galerie photo</h1>
+				<div class="container_gallery"></div>
+				<button>Ajouter une photo</button>
+			</div>
+		</aside>
 		<div class="filter">
 			<button class="btn_all">Tous</button>
 		</div>
