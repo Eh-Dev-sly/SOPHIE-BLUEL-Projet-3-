@@ -8,19 +8,21 @@
     width: 100%;
     height: 100%;
     background-color: rgba(0, 0, 0, 0.8);
+    overflow: auto;
+    animation: fadeIn 0.2s both;
 }
 
 .modal_editor-container{
+    position: relative;
     display: flex;
     flex-direction: column;
-    align-items: center;
     width: 630px;
     height: fit-content;
     background-color: white;
     border-radius: 10px;
     padding-top: 26px;
     padding-bottom: 45px;
-    overflow: auto;
+    animation: slideFromTop 0.3s both;
 }
 
 #modal_close{
@@ -38,14 +40,85 @@
     margin-bottom: 46px;
 }
 
-.modal_editor-container button{
-    width: 237px;
-    height: 36px;
-    background-color: #1D6154;
-    color: white;
+.add_works {
+  width: 237px;
+  height: 36px;
+  background-color: #1D6154;
+  color: white;
+  border: none;
+  border-radius: 60px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+}
+.modal_close button{
+    background-color: transparent;
     border: none;
-    border-radius: 60px;
-    font-size: 16px;
-    font-weight: bold;
     cursor: pointer;
+    width: fit-content;
+}
+
+.js-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.js-modal-close img {
+  width: 24px;
+  height: 24px;
+}
+
+.modal_editor-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.modal_editor[aria-hidden="true"] {
+    animation: fadeOut 0.2s both;
+}
+
+.modal_editor[aria-hidden="true"] .modal_editor-container {
+    animation: slideToBottom 0.3s both;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes slideFromTop {
+    from {
+        transform: translateY(-50px);
+    }
+    to {
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideToBottom {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(50px);
+    }
 }

@@ -142,6 +142,11 @@ li:hover {
 	cursor: pointer;
 }
 
+a{
+	text-decoration: none;
+	color: black;
+}
+
 #login {
 	font-weight: 700;
 }
