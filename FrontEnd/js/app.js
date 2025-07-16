@@ -29,6 +29,37 @@ function figureWork(data) {
   gallery.appendChild(figure); // Ajout de la figure à la galerie
 }
 
+// Function to get works of the DataBase and API
+getWorksForModal();
+let allWorksModal = [];
+
+async function getWorksForModal () {
+  const url = 'http://localhost:5678/api/works';
+  try {
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Response status: ${response.status}`);
+    }
+
+    allWorksModal = await response.json(); // <- on stocke les œuvres dans la variable globale
+    console.log(allWorksModal);
+    for (let i = 0; i < allWorksModal.length ; i++) {
+        figureWorkModal(allWorksModal[i]);
+    }
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+
+function figureWorkModal(data) {
+  const gallery = document.querySelector(".modal_gallery"); // Sélection de la galerie
+  
+  const figure = document.createElement("figure"); // Création d'une figure pour chaque œuvre
+  figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>`; // Ajout de l'image et du titre de l'œuvre
+  
+  gallery.appendChild(figure); // Ajout de la figure à la galerie
+}
+
 async function getCategories () {
   const url = 'http://localhost:5678/api/categories';
   try {
