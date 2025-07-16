@@ -50,7 +50,9 @@
   font-size: 16px;
   font-weight: bold;
   cursor: pointer;
+  margin-top: 38px;
 }
+
 .modal_close button{
     background-color: transparent;
     border: none;
@@ -85,6 +87,21 @@
 
 .modal_editor[aria-hidden="true"] .modal_editor-container {
     animation: slideToBottom 0.3s both;
+}
+
+.modal_gallery {
+	width: 100%;
+	display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
+	grid-column-gap: 7px;
+	grid-row-gap: 20px;
+    padding-bottom: 67px;
+    border-bottom: 1px solid #B3B3B3;
+}
+
+.modal_gallery img {
+	width: 78px;
+    height: 104px;
 }
 
 @keyframes fadeIn {
