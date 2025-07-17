@@ -119,6 +119,8 @@ document.addEventListener("DOMContentLoaded", () => {
   if (token) { // Si un token existe (donc si l'utilisateur est connecté)
   document.querySelector('.editor_mode').style.display = 'flex';  // Affiche le editor_mode
   document.querySelector('.btn_editor').style.display = 'flex'; // Affiche le btn_editor
+  document.querySelector('.login').style.display = 'none'; // Masque le login
+  document.querySelector('.logout').style.display = 'flex'; // Affiche le logout
   }
 });
 
