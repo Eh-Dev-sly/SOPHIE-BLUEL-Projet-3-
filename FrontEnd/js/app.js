@@ -121,6 +121,24 @@ document.addEventListener("DOMContentLoaded", () => {
   document.querySelector('.btn_editor').style.display = 'flex'; // Affiche le btn_editor
   document.querySelector('.login').style.display = 'none'; // Masque le login
   document.querySelector('.logout').style.display = 'flex'; // Affiche le logout
+  document.querySelector('.filter').style.display = 'none'; // Masque les filtres
+  document.querySelector('.portfolio_header').style.marginBottom = '92px'; // Ajoute un margin bottom
+  }
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const logoutBtn = document.getElementById("logout")  // Si le bouton existe, on ajoute un écouteur d'événement
+  if (logoutBtn) {
+    logoutBtn.addEventListener("click", () => {
+      // Supprime le token du localStorage
+      localStorage.removeItem("token");
+      document.querySelector('.editor_mode').style.display = 'none';  // Affiche le editor_mode
+      document.querySelector('.btn_editor').style.display = 'none'; // Affiche le btn_editor
+      document.querySelector('.login').style.display = 'flex'; // Masque le login
+      document.querySelector('.logout').style.display = 'none'; // Affiche le logout
+      document.querySelector('.filter').style.display = 'flex'; // Masque les filtres
+      document.querySelector('.portfolio_header').style.marginBottom = '0'; // Ajoute un margin bottom
+    });
   }
 });
 

@@ -104,6 +104,11 @@ nav li {
 	font-size: 1.2em;
 }
 
+nav li img {
+	width: 22px;
+	height: 22px;
+}
+
 a:hover,
 li:hover {
 	color: #B1663C;
