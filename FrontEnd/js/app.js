@@ -52,12 +52,19 @@ async function getWorksForModal () {
 }
 
 function figureWorkModal(data) {
-  const gallery = document.querySelector(".modal_gallery"); // Sélection de la galerie
-  
-  const figure = document.createElement("figure"); // Création d'une figure pour chaque œuvre
-  figure.innerHTML = `<img src=${data.imageUrl} alt=${data.title}>`; // Ajout de l'image et du titre de l'œuvre
-  
-  gallery.appendChild(figure); // Ajout de la figure à la galerie
+  const gallery = document.querySelector(".modal_gallery");
+
+  const figure = document.createElement("figure");
+  figure.classList.add("gallery-item");
+
+  figure.innerHTML = `
+    <img src="${data.imageUrl}" alt="${data.title}">
+    <button class="delete-button" data-id="${data.id}">
+      <img src="assets/icons/trash.svg" alt="Supprimer">
+    </button>
+  `;
+
+  gallery.appendChild(figure);
 }
 
 async function getCategories () {

@@ -104,6 +104,32 @@
     height: 104px;
 }
 
+.modal_gallery button img{
+    width : 9px;
+    height: 11px;
+}
+
+.gallery-item {
+    position: relative;
+}
+
+.delete-button {
+    background-color: black;
+    border: none;
+    width: 17px;
+    height: 17px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 2px;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+
+
 @keyframes fadeIn {
     from {
         opacity: 0;
