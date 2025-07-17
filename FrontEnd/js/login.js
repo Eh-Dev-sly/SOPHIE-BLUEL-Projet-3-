@@ -28,6 +28,7 @@ btnSubmit.addEventListener('click', (e) => { // Ajoute un écouteur d'événemen
     })
     .then(data => { // Traite les données JSON reçues
         console.log('Réponse API :', data); // Affiche la réponse de l'API dans la console
+        document.location.href="index.html";
     })
     .catch(error => { // Gère les erreurs survenues pendant la requête
         alert('Erreur lors de la connexion. Veuillez vérifier vos identifiants.'); // Affiche une alerte pour l'utilisateur en cas d'erreur
