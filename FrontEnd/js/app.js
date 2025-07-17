@@ -112,3 +112,13 @@ function btnFilters(data) { // Fonction pour créer un bouton de filtre pour cha
     filtered.forEach(figureWork); // génère uniquement les travaux filtrés
   });
 }
+
+// Attend que le DOM soit entièrement chargé avant d'exécuter le script
+document.addEventListener("DOMContentLoaded", () => {
+  const token = localStorage.getItem("token");  // Récupère le token de l'utilisateur depuis le localStorage
+  if (token) { // Si un token existe (donc si l'utilisateur est connecté)
+  document.querySelector('.editor_mode').style.display = 'flex';  // Affiche le editor_mode
+  document.querySelector('.btn_editor').style.display = 'flex'; // Affiche le btn_editor
+  }
+});
+
