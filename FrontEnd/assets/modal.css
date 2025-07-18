@@ -51,6 +51,14 @@
   font-weight: bold;
   cursor: pointer;
   margin-top: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.open_modal2:hover {
+  color: white; /* reste blanc au hover */
+  background-color: #0E2F28; /* tu peux ajouter un léger effet hover si tu veux */
 }
 
 .modal_close button{
@@ -232,14 +240,6 @@
     align-items: center;
 }
 
-/* .modal_editor[aria-hidden="true"] {
-    animation: fadeOut 0.2s both;
-}
-
-.modal_editor[aria-hidden="true"] .modal_editor-container {
-    animation: slideToBottom 0.3s both;
-} */
-
 
 /* --- Animation --- */
 @keyframes fadeIn {
@@ -276,22 +276,4 @@
     to {
         transform: translateY(50px);
     }
-}
-
-@keyframes slideFromRight {
-    from {
-        transform: translateX(50px);
-    }
-    to {
-        transform: translateX(0);
-    }
-}
-
-@keyframes  slideToLeft{
-    from {
-        transform: translateX(0);
-    }
-    to {
-        transform: translateX(-50px);
-    }   
 }
