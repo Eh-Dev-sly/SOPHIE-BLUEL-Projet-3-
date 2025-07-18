@@ -56,12 +56,29 @@
 			<div class="modal_editor-container js-modal-stop">
 				<button class="js-modal-close"><img src="assets/icons/xmark.svg" alt="x mark" id="modal_close"></button>
 				<div class="modal_editor-content">
-					<h1 id="modal_title">Galerie photo</h1>
+					<h1 id="modal1_title">Galerie photo</h1>
 					<div class="container_gallery">
 						<div class="modal_gallery"></div>
 					</div>
-					<button class="add_works">Ajouter une photo</button>
+					<button class="open_modal2" id="open_modal2">Ajouter une photo</button>
 				</div>
+			</div>
+			<div class="modal_add_work_container js-modal-stop">
+				<button class="js-modal-return"><img src="assets/icons/return.svg" alt="x mark" id="modal2_return"></button>
+				<button class="js-modal2-close"><img src="assets/icons/xmark.svg" alt="x mark" id="modal2_close"></button>
+				<div class="modal_add_work-content">
+					<h1 id="modal2_title">Ajout Photo</h1>
+					<section class="form_add_work" id="form_add_work">
+						<form action="#" method="post">
+							<label for="Titre">Titre</label>
+            				<input type="text" name="Titre" id="titleWork">
+							<label for="Titre">Titre</label>
+							<select name="categories" id="categoriesWork">
+								 <!-- categorie -->
+							</select>
+						</form>
+					</section>
+					<button class="add_works" id="add_works">Valider</button>
 				</div>
 			</div>
 		</aside>

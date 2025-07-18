@@ -34,4 +34,3 @@ document.querySelectorAll('.js-modal').forEach(a => {
     a.addEventListener('click', openModal)
 })
 
-
