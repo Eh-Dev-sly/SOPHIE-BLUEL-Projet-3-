@@ -36,7 +36,7 @@ const focusInModal = function (e){
     e.preventDefault()
     let index = focusables.findIndex(f => f === modal1.querySelector(':focus'))
     if (e.shiftKey === true){
-        index --
+        index 
     } else {
         index ++
     }
