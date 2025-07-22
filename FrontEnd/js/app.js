@@ -80,6 +80,7 @@ function figureWorkModal(data) {
   deleteButtons.forEach((button) => {
     button.addEventListener('click', async (e) => {
       e.preventDefault();
+      e.stopPropagation();
       const workId = button.dataset.id;
 
       try {
