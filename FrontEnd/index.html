@@ -68,17 +68,23 @@
 					<button class="js-modal-return"><img src="assets/icons/return.svg" alt="x mark" id="modal2_return"></button>
 					<button class="js-modal2-close"><img src="assets/icons/xmark.svg" alt="x mark" id="modal2_close"></button>
 					<h1 id="modal2_title">Ajout Photo</h1>
-					<section class="form_add_work" id="form_add_work">
-						<form action="#" method="post">
-							<label for="Titre">Titre</label>
-            				<input type="text" name="Titre" id="titleWork">
-							<label for="Titre">Titre</label>
-							<select name="categories" id="categoriesWork">
-								 <!-- categorie -->
-							</select>
-						</form>
+					<section class="add_work" id="add_work">
+  						<form action="#" method="post" id="add_work-form">
+							<label for="imageWork">Image</label>
+    						<input type="file" name="image" id="imageWork" accept="image/*" required>
+
+    						<label for="titleWork">Titre</label>
+    						<input type="text" name="title" id="titleWork" required>
+
+    						<label for="categoriesWork">Catégorie</label>
+    						<select name="category" id="categoriesWork" required>
+								<option value="1">Catégorie 1</option> <!--Pour tester-->
+								<option value="2">Catégorie 2</option>
+    						</select>
+							
+							<button class="add_works" id="add_works">Valider</button>
+  						</form>
 					</section>
-					<button class="add_works" id="add_works">Valider</button>
 				</div>
 			</div>
 		</aside>

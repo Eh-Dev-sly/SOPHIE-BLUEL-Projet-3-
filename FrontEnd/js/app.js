@@ -189,3 +189,33 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+document.getElementById('add_works').addEventListener('click', function (e) {
+  e.preventDefault();
+
+  const form = document.getElementById('add_work-form');
+  const formData = new FormData(form);
+
+  // Debug : affiche les données envoyées
+  for (const [key, value] of formData.entries()) {
+    console.log(key, value);
+  }
+
+  fetch('http://localhost:5678/api/works', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${localStorage.getItem('token')}`
+      // Ne PAS mettre 'Content-Type', le navigateur le gère avec FormData
+    },
+    body: formData
+  })
+  .then(res => res.json())
+  .then(data => {
+    console.log('Upload réussi:', data);
+    // Fermer modal, rafraîchir UI, etc.
+  })
+  .catch(err => {
+    console.error('Erreur lors de l\'upload:', err);
+  });
+});
+

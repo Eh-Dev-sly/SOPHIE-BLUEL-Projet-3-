@@ -261,6 +261,28 @@
     animation: slideToBottom 0.3s both;
 }
 
+.modal_add_work-content form{
+    display: flex;
+    flex-direction: column;
+}
+
+.modal_add_work-content label{
+    font-family: 'Work Sans', sans-serif;
+    font-size: 14px;
+    margin-bottom: 10px;
+}
+
+.modal_add_work-content input,
+select{
+    width: 420px;
+    height: 51px;
+    filter: drop-shadow(0 4px 14px #00000017);
+    background-color: #FFFFFF;
+    border: none;
+    margin-bottom: 21px;
+}
+
+
 
 /* --- Animation --- */
 @keyframes fadeIn {
