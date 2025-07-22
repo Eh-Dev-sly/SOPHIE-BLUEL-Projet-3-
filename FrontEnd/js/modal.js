@@ -13,7 +13,7 @@ const openModal = function (e) {
     modal1.querySelector('.js-modal-close').addEventListener('click', closeModal)
     modal1.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
     modal2.style.display = "none"
-    modal1.querySelector('.modal_editor-container').style.display = 'block'
+    modal1.querySelector('.modal_editor-container').style.display = 'block';
 }
 
 const closeModal = function (e) {
@@ -69,9 +69,15 @@ window.addEventListener('keydown', function (e){
 // =================================
 const modal2 = document.getElementById('modal_add_work_container');
 
+const modal2Stop = modal2.querySelector('.js-modal2-stop');
+if (modal2Stop) {
+    modal2Stop.addEventListener('click', stopPropagation);
+}
+
 // Gestion de l'ouverture de la 2e modal
 document.querySelector('.open_modal2').addEventListener('click', function (e) {
     e.preventDefault();
+
     
     // Cacher la première modal
     modal1.querySelector('.modal_editor-container').style.display = 'none';
@@ -95,7 +101,7 @@ document.querySelector('.js-modal2-close').addEventListener('click', function (e
     modal1.querySelector('.modal_editor-content').style.display = 'block';
 });
 
-document.querySelector('.js-modal-return').addEventListener('click', function (e) {
+document.querySelector('.js-modal-return')?.addEventListener('click', function (e) {
     e.preventDefault();
     modal2.style.display = 'none';
     modal1.querySelector('.modal_editor-content').style.display = 'block';
