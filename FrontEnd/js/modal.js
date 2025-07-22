@@ -12,6 +12,8 @@ const openModal = function (e) {
     modal1.addEventListener('click', closeModal)
     modal1.querySelector('.js-modal-close').addEventListener('click', closeModal)
     modal1.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
+    modal2.style.display = "none"
+    modal1.querySelector('.modal_editor-container').style.display = 'block'
 }
 
 const closeModal = function (e) {
@@ -62,5 +64,41 @@ window.addEventListener('keydown', function (e){
     }
 })
 
+// =================================
+//   Référence vers la 2ème modal
+// =================================
+const modal2 = document.getElementById('modal_add_work_container');
+
+// Gestion de l'ouverture de la 2e modal
+document.querySelector('.open_modal2').addEventListener('click', function (e) {
+    e.preventDefault();
+    
+    // Cacher la première modal
+    modal1.querySelector('.modal_editor-container').style.display = 'none';
+    
+    // Afficher la 2e modal
+    modal2.style.display = 'block';
+    modal2.removeAttribute('aria-hidden');
+    modal2.setAttribute('aria-modal', 'true');
+});
+
+// Gestion de la fermeture de la 2e modal
+document.querySelector('.js-modal2-close').addEventListener('click', function (e) {
+    e.preventDefault();
+
+    // Cacher la 2e modal
+    modal2.style.display = 'none';
+    modal2.setAttribute('aria-hidden', 'true');
+    modal2.removeAttribute('aria-modal');
+
+    // Réafficher la 1re modal
+    modal1.querySelector('.modal_editor-content').style.display = 'block';
+});
+
+document.querySelector('.js-modal-return').addEventListener('click', function (e) {
+    e.preventDefault();
+    modal2.style.display = 'none';
+    modal1.querySelector('.modal_editor-content').style.display = 'block';
+});
 
 
