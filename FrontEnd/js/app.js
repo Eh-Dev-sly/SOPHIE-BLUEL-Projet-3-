@@ -65,6 +65,37 @@ function figureWorkModal(data) {
   `;
 
   gallery.appendChild(figure);
+
+  const deleteButtons = document.querySelectorAll('.delete-button');
+
+  deleteButtons.forEach((button) => {
+    button.addEventListener('click', async (e) => {
+      e.preventDefault();
+      
+      const workId = button.dataset.id; // Récupère l'ID des bouttons
+
+      try {
+        const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("token")}`
+          }
+        });
+
+        if (response.ok) {
+          // 🧩 Étape 2 : supprimer l'élément du DOM
+          const figure = button.closest("figure");
+          figure.remove();
+          console.log(`Travail ${workId} supprimé.`);
+        } else {
+          console.error("Erreur lors de la suppression :", response.status);
+        }
+      } catch (error) {
+        console.error("Erreur réseau :", error);
+      }
+    });
+  });
 }
 
 async function getCategories () {

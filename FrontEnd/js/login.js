@@ -35,3 +35,4 @@ btnSubmit.addEventListener('click', (e) => { // Ajoute un écouteur d'événemen
         alert('Erreur lors de la connexion. Veuillez vérifier vos identifiants.'); // Affiche une alerte pour l'utilisateur en cas d'erreur
     });
 });
+
