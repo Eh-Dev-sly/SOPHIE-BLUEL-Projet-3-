@@ -106,7 +106,7 @@ document.querySelector('.open_modal2')?.addEventListener('click', function (e) {
     modal1.querySelector('.modal_editor-container').style.display = 'none';
 
     // Afficher modal2
-    modal2.style.display = 'block';
+    modal2.style.display = 'flex';
     modal2.removeAttribute('aria-hidden');
     modal2.setAttribute('aria-modal', 'true');
     modal2.removeAttribute('inert');
@@ -116,23 +116,35 @@ document.querySelector('.open_modal2')?.addEventListener('click', function (e) {
 document.querySelector('.js-modal2-close')?.addEventListener('click', function (e) {
     e.preventDefault();
 
-    // Cacher la 2e modal
-    modal2.style.display = 'none';
-    modal2.setAttribute('aria-hidden', 'true');
-    modal2.removeAttribute('aria-modal');
-    modal2.setAttribute('inert', '');
-
-    // Réafficher la partie cachée de modal1
-    const modal1Container = modal1.querySelector('.modal_editor-container');
-    if (modal1Container) {
-        modal1Container.style.display = 'block';
+    // Retirer le focus de l'élément actif avant de cacher les modales
+    const active = document.activeElement;
+    if (modal2.contains(active)) {
+        active.blur();
+    }
+    if (modal1 && modal1.contains(active)) {
+        active.blur();
     }
 
-    // Rendre modal1 interactive à nouveau
-    modal1.removeAttribute('aria-hidden');
-    modal1.removeAttribute('inert');
-    modal1.setAttribute('aria-modal', 'true');
+    // Cacher modal2
+    modal2.style.display = 'none';
+    modal2.setAttribute('aria-hidden', 'true');
+    modal2.setAttribute('inert', '');
+
+    // Cacher modal1 aussi
+    if (modal1) {
+        modal1.style.display = 'none';
+        modal1.setAttribute('aria-hidden', 'true');
+        modal1.setAttribute('inert', '');
+
+        // Nettoyage écouteurs modal1 si besoin
+        modal1.removeEventListener('click', closeModal);
+        modal1.querySelector('.js-modal-close')?.removeEventListener('click', closeModal);
+        modal1.querySelector('.js-modal-stop')?.removeEventListener('click', stopPropagation);
+
+        modal1 = null;
+    }
 });
+
 
 
 // Bouton retour depuis modal2
@@ -144,5 +156,37 @@ document.querySelector('.js-modal-return')?.addEventListener('click', function (
     modal2.removeAttribute('aria-modal');
     modal2.setAttribute('inert', '');
 
-    modal1.querySelector('.modal_editor-content').style.display = 'block';
+    modal1.querySelector('.modal_editor-content').style.display = 'flex';
 });
+
+document.querySelector('.js-modal-return')?.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // Cacher modal2
+  modal2.style.display = 'none';
+  modal2.setAttribute('aria-hidden', 'true');
+  modal2.setAttribute('inert', '');
+
+  // Réafficher modal1
+  if (modal1) {
+    modal1.style.display = 'flex'; // crucial : flex, pas block
+    modal1.removeAttribute('aria-hidden');
+    modal1.removeAttribute('inert');
+    modal1.setAttribute('aria-modal', 'true');
+
+    // Afficher le container modal1
+    const container = modal1.querySelector('.modal_editor-container');
+    if (container) {
+      container.style.display = 'flex';  // remet display flex
+    }
+
+    // Reset animation (reflow)
+    modal1.offsetHeight;
+
+    // Focus sur bouton fermer
+    const closeBtn = modal1.querySelector('.js-modal-close');
+    if (closeBtn) closeBtn.focus();
+  }
+});
+
+

@@ -1,28 +1,26 @@
 .modal_editor{
-    position: fixed;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    overflow: auto;
-    animation: fadeIn 0.2s both;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0,0,0,0.8);
+  overflow: auto;
+  animation: fadeIn 0.2s both;
 }
 
 .modal_editor-container{
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    width: 630px;
-    height: fit-content;
-    background-color: white;
-    border-radius: 10px;
-    padding-top: 26px;
-    padding-bottom: 45px;
-    animation: slideFromTop 0.3s both;
+  position: relative;
+  width: 630px;
+  background: white;
+  border-radius: 10px;
+  padding: 26px 0 45px;
+  animation: slideFromTop 0.3s both;
+  display: flex;
+  flex-direction: column;
 }
 
 #modal_close{
@@ -140,6 +138,7 @@
 /* --- Modal 2 : Add Work --- */
 
 .modal_add_work_container{
+    position: relative;
     display: none;
     align-items: center;
     justify-content: center;
@@ -176,17 +175,36 @@
     border-radius: 10px;
     padding-top: 26px;
     padding-bottom: 45px;
-    animation: slideFromTop 0.3s both;
+    animation: slideFromRight 0.3s both;
 }
 
 #modal2_return{
     display: flex;
-    height: 24px;
+    height: 15px;
 }
 
 #modal2_close{
     display: flex;
     height: 24px;
+}
+
+.js-modal-return {
+  position: absolute;
+  left: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+}
+
+.js-modal2-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0;
 }
 
 #modal2_title{
@@ -229,15 +247,18 @@
   padding: 0;
 }
 
-.js-modal2-close img {
-  width: 24px;
-  height: 24px;
-}
-
 .modal_add_work-content {
     display: flex;
     flex-direction: column;
     align-items: center;
+}
+
+.modal_add_work-content[aria-hidden="true"] {
+    animation: slideToRight 0.2s both;
+}
+
+.modal_editor[aria-hidden="true"] .modal_editor-container {
+    animation: slideToBottom 0.3s both;
 }
 
 
@@ -275,5 +296,23 @@
     }
     to {
         transform: translateY(50px);
+    }
+}
+
+@keyframes slideFromRight {
+    from {
+        transform: translateX(50px);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideToRight {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(50px);
     }
 }
