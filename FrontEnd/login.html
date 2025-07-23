@@ -23,17 +23,27 @@
 	</nav>
 </header>
 <main>
-    <section id="login">
-        <h2>Log In</h2>
-        <form action="#" method="post">
-            <label for="email">E-mail</label>
-            <input type="text" name="email" id="loginEmail">
-            <label for="password">Mot de Passe</label>
-            <input type="password" name="password" id="loginPassword">
-            <input type="submit" value="Se connecter" id="btn_submit">
-		</form>
+	<section id="login">
+
+		<h2>Log In</h2>
+
+			<div class="error-alert">
+				<div class="error-message">
+					<strong>Erreur de connexion</strong>
+					<p>Veuillez vérifier vos identifiants.</p>
+				</div>
+			</div>
+
+
+			<form action="#" method="post">
+				<label for="email">E-mail</label>
+				<input type="text" name="email" id="loginEmail">
+				<label for="password">Mot de Passe</label>
+				<input type="password" name="password" id="loginPassword">
+				<input type="submit" value="Se connecter" id="btn_submit">
+			</form>
+
         <a href="#">Mot de passe oublié</a>
-        </div>
     </section>
 </main>
 <footer>

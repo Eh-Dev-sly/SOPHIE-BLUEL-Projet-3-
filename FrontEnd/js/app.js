@@ -62,48 +62,62 @@ async function getWorksForModal() {
 // Génère les figures de la modale + écouteurs de suppression
 function figureWorkModal(data) {
   const gallery = document.querySelector(".modal_gallery");
-
+  
   const figure = document.createElement("figure");
   figure.classList.add("gallery-item");
   figure.innerHTML = `
-    <img src="${data.imageUrl}" alt="${data.title}">
-    <button class="delete-button" data-id="${data.id}">
-      <img src="assets/icons/trash.svg" alt="Supprimer">
-    </button>
+  <img src="${data.imageUrl}" alt="${data.title}">
+  <button type="button" class="delete-button" data-id="${data.id}">
+  <img src="assets/icons/trash.svg" alt="Supprimer">
+  </button>
   `;
-
+  
   gallery.appendChild(figure);
+  
+  // Sélectionne le bouton déjà injecté via innerHTML
+  const button = figure.querySelector(".delete-button");
+  
+  button.addEventListener('click', async (e) => {
+  e.preventDefault();
+  e.stopPropagation();
 
-  // Sélectionne tous les boutons "Supprimer"
-  const deleteButtons = document.querySelectorAll('.delete-button');
+  const workId = button.dataset.id;
 
-  deleteButtons.forEach((button) => {
-    button.addEventListener('click', async (e) => {
-      e.preventDefault();
-      e.stopPropagation();
-      const workId = button.dataset.id;
-
-      try {
-        const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
-          method: "DELETE",
-          headers: {
-            "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem("token")}`
-          }
-        });
-
-        if (response.ok) {
-          button.closest("figure").remove(); // Supprime l’élément du DOM
-          console.log(`Travail ${workId} supprimé.`);
-        } else {
-          console.error("Erreur lors de la suppression :", response.status);
-        }
-      } catch (error) {
-        console.error("Erreur réseau :", error);
+  try {
+    const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": `Bearer ${localStorage.getItem("token")}`
       }
     });
-  });
+
+    if (response.ok) {
+      figure.remove(); // Supprime l'image de la modale
+      console.log(`Travail ${workId} supprimé.`);
+    } else {
+      console.error("Erreur lors de la suppression :", response.status);
+    }
+  } catch (error) {
+    console.error("Erreur réseau :", error);
+  }
+});
 }
+
+document.querySelectorAll('.js-modal').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault(); // ← Empêche le comportement natif (scroll/reload)
+    
+    const modal = document.getElementById('modal_editor');
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-modal', 'true');
+    document.body.style.overflow = 'hidden'; // Optionnel : empêche scroll en arrière-plan
+  });
+});
+
+
+
 
 // ==========================
 //   Filtres par catégorie
@@ -281,4 +295,27 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     reader.readAsDataURL(file);
   });
+});
+
+document.addEventListener('DOMContentLoaded', () => {
+  const btnValider = document.getElementById('add_works');
+  const imageInput = document.getElementById('imageWork');
+  const titleInput = document.getElementById('titleWork');
+  const categorySelect = document.getElementById('categoriesWork');
+
+  function checkFormFields() {
+    const imageOK = imageInput.files.length > 0;
+    const titleOK = titleInput.value.trim() !== '';
+    const categoryOK = categorySelect.value !== '';
+
+    if (imageOK && titleOK && categoryOK) {
+      btnValider.classList.add('active');
+    } else {
+      btnValider.classList.remove('active');
+    }
+  }
+
+  imageInput.addEventListener('change', checkFormFields);
+  titleInput.addEventListener('input', checkFormFields);
+  categorySelect.addEventListener('change', checkFormFields);
 });

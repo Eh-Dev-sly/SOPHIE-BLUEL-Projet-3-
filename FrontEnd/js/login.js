@@ -1,5 +1,6 @@
 const form = document.querySelector('form'); // Sélectionne l'élément formulaire
 const btnSubmit = document.getElementById('btn_submit'); // Sélectionne le bouton de soumission
+const errorId = document.querySelector('.error-alert'); // Sélectionne la div error_login
 
 let loginEmail = document.getElementById('loginEmail'); // Sélectionne le champ de saisie de l'email
 let loginPassword = document.getElementById('loginPassword'); // Sélectionne le champ de saisie du mot de passe
@@ -32,7 +33,9 @@ btnSubmit.addEventListener('click', (e) => { // Ajoute un écouteur d'événemen
         document.location.href="index.html";
     })
     .catch(error => { // Gère les erreurs survenues pendant la requête
-        alert('Erreur lors de la connexion. Veuillez vérifier vos identifiants.'); // Affiche une alerte pour l'utilisateur en cas d'erreur
+        // alert('Erreur lors de la connexion. Veuillez vérifier vos identifiants.'); // Affiche une alerte pour l'utilisateur en cas d'erreur
+        errorId.style.display = 'flex';
+        form.style.marginTop = '0';
     });
 });
 
