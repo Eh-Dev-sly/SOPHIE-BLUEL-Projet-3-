@@ -283,19 +283,28 @@ document.addEventListener('DOMContentLoaded', () => {
     const file = e.target.files[0];
     if (!file) return;
 
+    // 🔁 Supprimer l'image précédente si elle existe
+    const oldPreview = container.querySelector('.preview-image');
+    if (oldPreview) oldPreview.remove();
+
     const reader = new FileReader();
     reader.onload = (event) => {
       const imgTag = document.createElement('img');
       imgTag.src = event.target.result;
+      imgTag.className = 'preview-image';
+
+      // Cacher les éléments initiaux
       document.querySelector('.icone_import').style.display = 'none';
       document.querySelector('.button_add_image').style.display = 'none';
       document.querySelector('.format_image').style.display = 'none';
-      imgTag.className = 'preview-image';
+
       container.appendChild(imgTag);
     };
+
     reader.readAsDataURL(file);
   });
 });
+
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnValider = document.getElementById('add_works');
