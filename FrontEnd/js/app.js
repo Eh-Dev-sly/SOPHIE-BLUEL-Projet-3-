@@ -194,9 +194,21 @@ document.getElementById('add_works').addEventListener('click', function (e) {
   e.preventDefault();
 
   const form = document.getElementById('add_work-form');
+  
+  const imgNewWork = document.getElementById('imageWork');
+  const titleNewWork = document.getElementById('titleWork');
+
+  if (
+    imgNewWork.files.length === 0 ||
+    titleNewWork.value.trim() === '' ||
+    document.getElementById('categoriesWork').value === ''
+  ) {
+    alert('Veuillez remplir tous les champs.');
+    return; 
+  }
+
   const formData = new FormData(form);
 
-  // Debug : affiche les données envoyées
   for (const [key, value] of formData.entries()) {
     console.log(key, value);
   }
@@ -205,17 +217,68 @@ document.getElementById('add_works').addEventListener('click', function (e) {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${localStorage.getItem('token')}`
-      // Ne PAS mettre 'Content-Type', le navigateur le gère avec FormData
     },
     body: formData
   })
   .then(res => res.json())
   .then(data => {
     console.log('Upload réussi:', data);
-    // Fermer modal, rafraîchir UI, etc.
   })
   .catch(err => {
     console.error('Erreur lors de l\'upload:', err);
   });
 });
 
+// ================================
+//   Catégorie pour le Formulaire
+// ================================
+
+async function getCategoriesForForm() {
+  const url = 'http://localhost:5678/api/categories';
+
+  try {
+    const response = await fetch(url);
+    if (!response.ok) throw new Error(`Response status: ${response.status}`);
+
+    allCategoriesForForm = await response.json();
+    console.log(allCategoriesForForm);
+
+    allCategoriesForForm.forEach(selectCat);
+  } catch (error) {
+    console.error(error.message);
+  }
+}
+getCategoriesForForm();
+
+// Select
+function selectCat(data) {
+  const form = document.getElementById("categoriesWork");
+  const option = document.createElement("option");
+
+  option.value = data.id;               // ➤ ✅ ID numérique requis par l'API
+  option.textContent = data.name;       // Affiche le nom dans le select
+
+  form.appendChild(option);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const input = document.getElementById('imageWork');
+  const container = document.querySelector('.custom-upload-button');
+
+  input.addEventListener('change', (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      const imgTag = document.createElement('img');
+      imgTag.src = event.target.result;
+      document.querySelector('.icone_import').style.display = 'none';
+      document.querySelector('.button_add_image').style.display = 'none';
+      document.querySelector('.format_image').style.display = 'none';
+      imgTag.className = 'preview-image';
+      container.appendChild(imgTag);
+    };
+    reader.readAsDataURL(file);
+  });
+});

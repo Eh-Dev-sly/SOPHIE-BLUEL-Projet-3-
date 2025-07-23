@@ -146,7 +146,6 @@
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
     overflow: auto;
     animation: fadeIn 0.2s both;
 }
@@ -264,12 +263,54 @@
 .modal_add_work-content form{
     display: flex;
     flex-direction: column;
+    align-items: center;
+}
+
+.custom-upload-button {
+    width: 420px;
+    height: 169px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    background-color: #E8F1F6;
+}
+
+.custom-upload-button p {
+    font-family: 'Work Sans', sans-serif;
+    font-size: 10px;
+    color: #444444;
+}
+
+#imageWork img{
+    width: 76px;
+    height: 76px;
+}
+
+.button_add_image{
+    width: 173px;
+    height: 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    cursor: pointer;
+    background-color: #CBD6DC;
+    color: #306685;
 }
 
 .modal_add_work-content label{
     font-family: 'Work Sans', sans-serif;
     font-size: 14px;
     margin-bottom: 10px;
+    gap: 6px;
+}
+
+.preview-image{
+    width: 129px;
+    height: 193px;
 }
 
 .modal_add_work-content input,
