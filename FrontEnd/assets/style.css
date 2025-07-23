@@ -239,7 +239,6 @@ a{
 }
 
 .gallery {
-	width: 100%;
 	display: grid;
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
@@ -247,8 +246,9 @@ a{
 }
 
 .gallery img {
-	width: 100%;
-
+	width: 304px;
+	height: 405px;
+	margin-bottom: 7px;
 }
 #contact {
 	width: 50%;

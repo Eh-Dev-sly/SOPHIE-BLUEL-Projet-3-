@@ -1,66 +1,192 @@
-let modal1 = null ;
-const focusableSelector = 'button, a, input, textarea'
-let focusables = []
+let modal1 = null;
+const focusableSelector = 'button, a, input, textarea';
+let focusables = [];
 
+// Utilitaire : stopPropagation
+const stopPropagation = function (e) {
+    e.stopPropagation();
+};
+
+// Ouvre une modal (modal1)
 const openModal = function (e) {
     e.preventDefault();
-    modal1 = document.querySelector(e.target.getAttribute('href'))
-    focusables = Array.from(modal1.querySelectorAll(focusableSelector))
-    modal1.style.display = null
-    modal1.removeAttribute('aria-hidden')
-    modal1.setAttribute('aria-modal', 'true')
-    modal1.addEventListener('click', closeModal)
-    modal1.querySelector('.js-modal-close').addEventListener('click', closeModal)
-    modal1.querySelector('.js-modal-stop').addEventListener('click', stopPropagation)
-}
+    modal1 = document.querySelector(e.target.getAttribute('href'));
+    focusables = Array.from(modal1.querySelectorAll(focusableSelector));
+    
+    // Rendre active
+    modal1.style.display = null;
+    modal1.removeAttribute('aria-hidden');
+    modal1.setAttribute('aria-modal', 'true');
+    modal1.removeAttribute('inert');
 
+    // Fermer avec clic extérieur ou bouton
+    modal1.addEventListener('click', closeModal);
+    modal1.querySelector('.js-modal-close')?.addEventListener('click', closeModal);
+    modal1.querySelector('.js-modal-stop')?.addEventListener('click', stopPropagation);
+
+    // S'assurer que la modal2 est cachée
+    modal2.style.display = 'none';
+
+    // Afficher le bon contenu
+    modal1.querySelector('.modal_editor-container').style.display = 'block';
+};
+
+// Ferme la modal principale (modal1)
 const closeModal = function (e) {
-    if (modal1 === null) return
-    e.preventDefault()
+    if (modal1 === null) return;
+    e.preventDefault();
+
+    // ✅ Retirer le focus si dans modal
+    const active = document.activeElement;
+    if (modal1.contains(active)) {
+        active.blur();
+    }
+
+    // Masquer avec délai pour animation
     window.setTimeout(function () {
-    modal1.style.display = "none"
-    modal1 = null
-    }, 500)
-    modal1.setAttribute('aria-hidden', 'true')
-    modal1.removeAttribute('aria-modal')
-    modal1.removeEventListener('click', closeModal)
-    modal1.querySelector('.js-modal-close').removeEventListener('click', closeModal)
-    modal1.querySelector('.js-modal-close').removeEventListener('click', stopPropagation)
-}
+        modal1.style.display = 'none';
+        modal1 = null;
+    }, 500);
 
-const stopPropagation = function (e) {
-    e.stopPropagation()
-}
+    modal1.setAttribute('aria-hidden', 'true');
+    modal1.removeAttribute('aria-modal');
+    modal1.setAttribute('inert', '');
 
-const focusInModal = function (e){
-    e.preventDefault()
-    let index = focusables.findIndex(f => f === modal1.querySelector(':focus'))
-    if (e.shiftKey === true){
-        index 
+    // Nettoyage des écouteurs
+    modal1.removeEventListener('click', closeModal);
+    modal1.querySelector('.js-modal-close')?.removeEventListener('click', closeModal);
+    modal1.querySelector('.js-modal-stop')?.removeEventListener('click', stopPropagation);
+};
+
+// Gestion du focus dans la modal
+const focusInModal = function (e) {
+    e.preventDefault();
+    let index = focusables.findIndex(f => f === modal1.querySelector(':focus'));
+
+    if (e.shiftKey) {
+        index--;
     } else {
-        index ++
+        index++;
     }
-    if (index >= focusables.length){
-        index = 0
-    }
-    if (index < 0) {
-        index = focusables.length - 1
-    }
-    focusables[index].focus()
-}
 
+    if (index >= focusables.length) index = 0;
+    if (index < 0) index = focusables.length - 1;
+
+    focusables[index].focus();
+};
+
+// Écouteurs d'ouverture de la première modal
 document.querySelectorAll('.js-modal').forEach(a => {
-    a.addEventListener('click', openModal)
-})
+    a.addEventListener('click', openModal);
+});
 
-window.addEventListener('keydown', function (e){
-    if (e.key === "Escape" || e.key === "Esc") {
-        closeModal(e)
+// Clavier : Escape / Tab
+window.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' || e.key === 'Esc') {
+        closeModal(e);
     }
-    if (e.key === 'Tab' && modal1 !== null){
-        focusInModal(e)
+    if (e.key === 'Tab' && modal1 !== null) {
+        focusInModal(e);
     }
-})
+});
 
+// ======================================
+//   Gestion de la 2e modal (modal2)
+// ======================================
+const modal2 = document.getElementById('modal_add_work_container');
+
+// Empêche la fermeture au clic intérieur
+modal2.querySelector('.js-modal2-stop')?.addEventListener('click', stopPropagation);
+
+// Ouvrir la 2e modal
+document.querySelector('.open_modal2')?.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    // Cacher contenu de modal1
+    modal1.querySelector('.modal_editor-container').style.display = 'none';
+
+    // Afficher modal2
+    modal2.style.display = 'flex';
+    modal2.removeAttribute('aria-hidden');
+    modal2.setAttribute('aria-modal', 'true');
+    modal2.removeAttribute('inert');
+});
+
+// Fermer la 2e modal avec bouton close
+document.querySelector('.js-modal2-close')?.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    // Retirer le focus de l'élément actif avant de cacher les modales
+    const active = document.activeElement;
+    if (modal2.contains(active)) {
+        active.blur();
+    }
+    if (modal1 && modal1.contains(active)) {
+        active.blur();
+    }
+
+    // Cacher modal2
+    modal2.style.display = 'none';
+    modal2.setAttribute('aria-hidden', 'true');
+    modal2.setAttribute('inert', '');
+
+    // Cacher modal1 aussi
+    if (modal1) {
+        modal1.style.display = 'none';
+        modal1.setAttribute('aria-hidden', 'true');
+        modal1.setAttribute('inert', '');
+
+        // Nettoyage écouteurs modal1 si besoin
+        modal1.removeEventListener('click', closeModal);
+        modal1.querySelector('.js-modal-close')?.removeEventListener('click', closeModal);
+        modal1.querySelector('.js-modal-stop')?.removeEventListener('click', stopPropagation);
+
+        modal1 = null;
+    }
+});
+
+
+
+// Bouton retour depuis modal2
+document.querySelector('.js-modal-return')?.addEventListener('click', function (e) {
+    e.preventDefault();
+
+    modal2.style.display = 'none';
+    modal2.setAttribute('aria-hidden', 'true');
+    modal2.removeAttribute('aria-modal');
+    modal2.setAttribute('inert', '');
+
+    modal1.querySelector('.modal_editor-content').style.display = 'flex';
+});
+
+document.querySelector('.js-modal-return')?.addEventListener('click', function (e) {
+  e.preventDefault();
+
+  // Cacher modal2
+  modal2.style.display = 'none';
+  modal2.setAttribute('aria-hidden', 'true');
+  modal2.setAttribute('inert', '');
+
+  // Réafficher modal1
+  if (modal1) {
+    modal1.style.display = 'flex'; // crucial : flex, pas block
+    modal1.removeAttribute('aria-hidden');
+    modal1.removeAttribute('inert');
+    modal1.setAttribute('aria-modal', 'true');
+
+    // Afficher le container modal1
+    const container = modal1.querySelector('.modal_editor-container');
+    if (container) {
+      container.style.display = 'flex';  // remet display flex
+    }
+
+    // Reset animation (reflow)
+    modal1.offsetHeight;
+
+    // Focus sur bouton fermer
+    const closeBtn = modal1.querySelector('.js-modal-close');
+    if (closeBtn) closeBtn.focus();
+  }
+});
 
 
