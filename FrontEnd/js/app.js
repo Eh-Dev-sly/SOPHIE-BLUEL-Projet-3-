@@ -217,11 +217,18 @@ document.getElementById('add_works').addEventListener('click', function (e) {
     titleNewWork.value.trim() === '' ||
     document.getElementById('categoriesWork').value === ''
   ) {
+    console.log("Erreur : Remplir toutes les cases")
     const errorMessage = document.querySelector('.error-alert').style.display = 'flex';
     const section = document.querySelector('.add_work').style.margin = '0 0 50px 0';
     const deletePadding = document.querySelector('.modal_add_work-content').style.paddingBottom = '0';
     return; 
   }
+
+      if (file.size > 4 * 1024 * 1024) {
+      alert("L'image dépasse 4 Mo. Veuillez choisir une image plus légère.");
+      input.value = ""; // Réinitialise le champ fichier
+      return;
+    }
 
   const formData = new FormData(form);
 
@@ -330,3 +337,5 @@ document.addEventListener('DOMContentLoaded', () => {
   titleInput.addEventListener('input', checkFormFields);
   categorySelect.addEventListener('change', checkFormFields);
 });
+
+    
