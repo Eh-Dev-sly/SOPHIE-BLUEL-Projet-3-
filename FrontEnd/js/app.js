@@ -217,7 +217,9 @@ document.getElementById('add_works').addEventListener('click', function (e) {
     titleNewWork.value.trim() === '' ||
     document.getElementById('categoriesWork').value === ''
   ) {
-    alert('Veuillez remplir tous les champs.');
+    const errorMessage = document.querySelector('.error-alert').style.display = 'flex';
+    const section = document.querySelector('.add_work').style.margin = '0 0 50px 0';
+    const deletePadding = document.querySelector('.modal_add_work-content').style.paddingBottom = '0';
     return; 
   }
 

@@ -110,6 +110,10 @@ document.querySelector('.open_modal2')?.addEventListener('click', function (e) {
     modal2.removeAttribute('aria-hidden');
     modal2.setAttribute('aria-modal', 'true');
     modal2.removeAttribute('inert');
+
+    const errorMessage = document.querySelector('.error-alert').style.display = 'none';
+    const section = document.querySelector('.add_work').style.margin = '50px 0';
+    const deletePadding = document.querySelector('.modal_add_work-content').style.paddingBottom = '45px';
 });
 
 // Fermer la 2e modal avec bouton close
