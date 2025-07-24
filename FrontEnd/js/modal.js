@@ -2,7 +2,6 @@ let modal1 = null; // Référence de la modal principale
 const focusableSelector = 'button, a, input, textarea'; // Éléments focusables dans une modal
 let focusables = []; // Liste des éléments focusables dans la modal active
 
-// Stoppe la propagation de l'événement (utile pour éviter fermeture de la modal quand on clique à l'intérieur)
 const stopPropagation = function (e) {
     e.stopPropagation();
 };
@@ -13,10 +12,9 @@ const stopPropagation = function (e) {
 const openModal = function (e) {
     e.preventDefault();
 
-    modal1 = document.querySelector(e.target.getAttribute('href')); // Récupère la modal ciblée via href
-    focusables = Array.from(modal1.querySelectorAll(focusableSelector)); // Stocke les éléments focusables dans modal1
+    modal1 = document.querySelector(e.target.getAttribute('href')); // Récupère la modal ciblée
+    focusables = Array.from(modal1.querySelectorAll(focusableSelector)); // Stocke les éléments focusables
     
-    // Active la modal (accessibilité + affichage)
     modal1.style.display = null;
     modal1.removeAttribute('aria-hidden');
     modal1.setAttribute('aria-modal', 'true');
@@ -27,10 +25,8 @@ const openModal = function (e) {
     modal1.querySelector('.js-modal-close')?.addEventListener('click', closeModal);
     modal1.querySelector('.js-modal-stop')?.addEventListener('click', stopPropagation);
 
-    // Force la fermeture de modal2 si elle était ouverte
     modal2.style.display = 'none';
 
-    // Affiche le bon container dans modal1
     modal1.querySelector('.modal_editor-container').style.display = 'block';
 };
 
@@ -38,16 +34,16 @@ const openModal = function (e) {
 // FERMETURE DE LA MODAL 1
 // ==========================
 const closeModal = function (e) {
-    if (modal1 === null) return; // Si aucune modal ouverte, on sort
+    if (modal1 === null) return; // Si aucune modal ouverte
     e.preventDefault();
 
-    // Si un élément dans la modal est focus, on retire le focus
+    // Retire le focus
     const active = document.activeElement;
     if (modal1.contains(active)) {
         active.blur();
     }
 
-    // Fermeture avec délai pour permettre une éventuelle animation CSS
+    // Fermeture avec délai
     window.setTimeout(function () {
         modal1.style.display = 'none';
         modal1 = null;
@@ -58,7 +54,7 @@ const closeModal = function (e) {
     modal1.removeAttribute('aria-modal');
     modal1.setAttribute('inert', '');
 
-    // Suppression des écouteurs pour éviter les doublons
+    // Suppression des addEvent
     modal1.removeEventListener('click', closeModal);
     modal1.querySelector('.js-modal-close')?.removeEventListener('click', closeModal);
     modal1.querySelector('.js-modal-stop')?.removeEventListener('click', stopPropagation);
@@ -71,14 +67,14 @@ const focusInModal = function (e) {
     e.preventDefault();
     let index = focusables.findIndex(f => f === modal1.querySelector(':focus')); // Trouve l'élément actuellement focus
 
-    // Shift+Tab => recule, sinon avance
+    // Shift+Tab
     if (e.shiftKey) {
         index--;
     } else {
         index++;
     }
 
-    // Boucle le focus au début ou à la fin
+    // Boucle le focus
     if (index >= focusables.length) index = 0;
     if (index < 0) index = focusables.length - 1;
 
@@ -86,7 +82,7 @@ const focusInModal = function (e) {
 };
 
 // ==========================
-// ÉCOUTEURS GLOBAUX
+// ADDEVENT GLOBAUX
 // ==========================
 
 // Boutons d'ouverture des modales
@@ -94,7 +90,7 @@ document.querySelectorAll('.js-modal').forEach(a => {
     a.addEventListener('click', openModal);
 });
 
-// Touche clavier : Escape => fermer modal / Tab => gestion du focus
+// Escape => fermer modal ; Tab => gestion du focus
 window.addEventListener('keydown', function (e) {
     if (e.key === 'Escape' || e.key === 'Esc') {
         closeModal(e);
@@ -156,7 +152,7 @@ document.querySelector('.js-modal2-close')?.addEventListener('click', function (
 });
 
 // ==========================
-// BOUTON RETOUR DE MODAL2 VERS MODAL1
+//       BOUTON RETOUR
 // ==========================
 
 // Version 1 : cacher modal2, réactiver contenu de modal1

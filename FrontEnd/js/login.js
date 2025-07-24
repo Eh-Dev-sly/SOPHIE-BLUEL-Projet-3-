@@ -22,7 +22,6 @@ btnSubmit.addEventListener('click', (e) => {
     email = loginEmail.value;
     password = loginPassword.value;
 
-    // Envoie une requête POST à l’API de login
     fetch('http://localhost:5678/api/users/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -32,19 +31,16 @@ btnSubmit.addEventListener('click', (e) => {
         })
     })
     .then(response => {
-        // Vérifie si la réponse n'est pas "OK" (code HTTP hors 2xx)
         if (!response.ok) {
-            throw new Error(`Erreur HTTP : ${response.status}`); // Lance une erreur avec le code
+            throw new Error(`Erreur HTTP : ${response.status}`)
         }
         return response.json(); // Parse la réponse JSON
     })
     .then(data => {
-        console.log('Réponse API :', data); // Affiche les données dans la console (debug)
+        console.log('Réponse API :', data); // debug
 
-        // Enregistre le token d'authentification dans le localStorage
         localStorage.setItem('token', data.token);
 
-        // Redirige vers la page d’accueil
         document.location.href = "index.html";
     })
     .catch(error => {
