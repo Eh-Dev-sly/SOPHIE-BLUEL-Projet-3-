@@ -2,11 +2,11 @@
 //            Chargement des œuvres
 // ===========================================
 
-// Appel initial
+// Appel initial de la fonction de récupération des œuvres
 getWorks();
-let allWorks = []; // Stockage global des œuvres
+let allWorks = []; // Stockage global des œuvres pour la galerie principale
 
-// Récupération des travaux depuis l'API
+// Fonction de récupération des œuvres depuis l'API
 async function getWorks() {
   const url = 'http://localhost:5678/api/works';
 
@@ -17,13 +17,14 @@ async function getWorks() {
     allWorks = await response.json();
     console.log(allWorks);
 
-    allWorks.forEach(figureWork); // Affiche chaque œuvre
+    // Génère une figure pour chaque œuvre dans la galerie principale
+    allWorks.forEach(figureWork);
   } catch (error) {
     console.error(error.message);
   }
 }
 
-// Génération d’un <figure> pour la galerie principale
+// Génération d’un <figure> pour une œuvre dans la galerie principale
 function figureWork(data) {
   const gallery = document.querySelector(".gallery");
 
@@ -41,8 +42,9 @@ function figureWork(data) {
 // ===========================================
 
 getWorksForModal();
-let allWorksModal = [];
+let allWorksModal = []; // Stockage pour la galerie de la modale
 
+// Fonction de récupération des œuvres pour la modale
 async function getWorksForModal() {
   const url = 'http://localhost:5678/api/works';
 
@@ -59,68 +61,68 @@ async function getWorksForModal() {
   }
 }
 
-// Génère les figures de la modale + écouteurs de suppression
+// Génère une figure pour la modale et ajoute un bouton de suppression
 function figureWorkModal(data) {
   const gallery = document.querySelector(".modal_gallery");
-  
+
   const figure = document.createElement("figure");
   figure.classList.add("gallery-item");
+
   figure.innerHTML = `
-  <img src="${data.imageUrl}" alt="${data.title}">
-  <button type="button" class="delete-button" data-id="${data.id}">
-  <img src="assets/icons/trash.svg" alt="Supprimer">
-  </button>
+    <img src="${data.imageUrl}" alt="${data.title}">
+    <button type="button" class="delete-button" data-id="${data.id}">
+      <img src="assets/icons/trash.svg" alt="Supprimer">
+    </button>
   `;
-  
+
   gallery.appendChild(figure);
-  
-  // Sélectionne le bouton déjà injecté via innerHTML
+
+  // Ajout de l'écouteur d'événement pour le bouton supprimer
   const button = figure.querySelector(".delete-button");
-  
   button.addEventListener('click', async (e) => {
-  e.preventDefault();
-  e.stopPropagation();
+    e.preventDefault();
+    e.stopPropagation();
 
-  const workId = button.dataset.id;
+    const workId = button.dataset.id;
 
-  try {
-    const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-        "Authorization": `Bearer ${localStorage.getItem("token")}`
+    try {
+      const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
+        }
+      });
+
+      if (response.ok) {
+        figure.remove(); // Supprime la figure de la modale
+        console.log(`Travail ${workId} supprimé.`);
+      } else {
+        console.error("Erreur lors de la suppression :", response.status);
       }
-    });
-
-    if (response.ok) {
-      figure.remove(); // Supprime l'image de la modale
-      console.log(`Travail ${workId} supprimé.`);
-    } else {
-      console.error("Erreur lors de la suppression :", response.status);
+    } catch (error) {
+      console.error("Erreur réseau :", error);
     }
-  } catch (error) {
-    console.error("Erreur réseau :", error);
-  }
-});
+  });
 }
+
+// ===========================================
+//     Ouverture de la modale d’édition
+// ===========================================
 
 document.querySelectorAll('.js-modal').forEach(btn => {
   btn.addEventListener('click', (e) => {
-    e.preventDefault(); // ← Empêche le comportement natif (scroll/reload)
-    
+    e.preventDefault();
+
     const modal = document.getElementById('modal_editor');
     modal.style.display = 'flex';
     modal.setAttribute('aria-hidden', 'false');
     modal.setAttribute('aria-modal', 'true');
-    document.body.style.overflow = 'hidden'; // Optionnel : empêche scroll en arrière-plan
   });
 });
 
-
-
-
 // ==========================
-//   Filtres par catégorie
+//     Filtres par catégorie
 // ==========================
 
 async function getCategories() {
@@ -133,21 +135,21 @@ async function getCategories() {
     allCategories = await response.json();
     console.log(allCategories);
 
-    allCategories.forEach(btnFilters); // Crée un bouton pour chaque catégorie
+    allCategories.forEach(btnFilters); // Génère un bouton filtre par catégorie
   } catch (error) {
     console.error(error.message);
   }
 }
 getCategories();
 
-// Bouton "Tous"
+// Bouton "Tous" : affiche toutes les œuvres
 const btnAll = document.querySelector('.btn_all');
 btnAll.addEventListener('click', () => {
-  document.querySelector(".gallery").innerHTML = ""; // Vide la galerie
-  allWorks.forEach(figureWork); // Affiche tout
+  document.querySelector(".gallery").innerHTML = "";
+  allWorks.forEach(figureWork);
 });
 
-// Création des boutons filtres
+// Création dynamique des boutons de filtre
 function btnFilters(data) {
   const filters = document.querySelector(".filter");
   const button = document.createElement("button");
@@ -157,7 +159,7 @@ function btnFilters(data) {
 
   filters.appendChild(button);
 
-  // Écouteur pour filtrer selon la catégorie
+  // Affiche uniquement les œuvres de la catégorie sélectionnée
   button.addEventListener("click", () => {
     const filtered = allWorks.filter(work => work.categoryId === data.id);
     document.querySelector(".gallery").innerHTML = "";
@@ -166,14 +168,13 @@ function btnFilters(data) {
 }
 
 // ==========================
-//  Mode édition / Connexion
+//     Mode édition connecté
 // ==========================
 
 document.addEventListener("DOMContentLoaded", () => {
   const token = localStorage.getItem("token");
 
   if (token) {
-    // Si l’utilisateur est connecté
     document.querySelector('.editor_mode').style.display = 'flex';
     document.querySelector('.btn_editor').style.display = 'flex';
     document.querySelector('.login').style.display = 'none';
@@ -184,7 +185,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 // ==========================
-//  Déconnexion utilisateur
+//     Déconnexion utilisateur
 // ==========================
 
 document.addEventListener("DOMContentLoaded", () => {
@@ -194,6 +195,7 @@ document.addEventListener("DOMContentLoaded", () => {
     logoutBtn.addEventListener("click", () => {
       localStorage.removeItem("token");
 
+      // Mise à jour de l’interface après déconnexion
       document.querySelector('.editor_mode').style.display = 'none';
       document.querySelector('.btn_editor').style.display = 'none';
       document.querySelector('.login').style.display = 'flex';
@@ -204,38 +206,41 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 });
 
+// ==========================
+//     Ajout d’une œuvre
+// ==========================
+
 document.getElementById('add_works').addEventListener('click', function (e) {
   e.preventDefault();
 
   const form = document.getElementById('add_work-form');
-  
   const imgNewWork = document.getElementById('imageWork');
   const titleNewWork = document.getElementById('titleWork');
 
+  // Vérification des champs requis
   if (
     imgNewWork.files.length === 0 ||
     titleNewWork.value.trim() === '' ||
     document.getElementById('categoriesWork').value === ''
   ) {
-    console.log("Erreur : Remplir toutes les cases")
-    const errorMessage = document.querySelector('.error-alert').style.display = 'flex';
-    const section = document.querySelector('.add_work').style.margin = '0 0 50px 0';
-    const deletePadding = document.querySelector('.modal_add_work-content').style.paddingBottom = '0';
-    return; 
+    console.log("Erreur : Remplir toutes les cases");
+    document.querySelector('.error-alert').style.display = 'flex';
+    document.querySelector('.add_work').style.margin = '0 0 50px 0';
+    document.querySelector('.modal_add_work-content').style.paddingBottom = '0';
+    return;
   }
 
-      if (file.size > 4 * 1024 * 1024) {
-      alert("L'image dépasse 4 Mo. Veuillez choisir une image plus légère.");
-      input.value = ""; // Réinitialise le champ fichier
-      return;
-    }
+  // Vérifie la taille de l'image (max 4 Mo)
+  const file = imgNewWork.files[0];
+  if (file.size > 4 * 1024 * 1024) {
+    alert("L'image dépasse 4 Mo. Veuillez choisir une image plus légère.");
+    imgNewWork.value = "";
+    return;
+  }
 
   const formData = new FormData(form);
 
-  for (const [key, value] of formData.entries()) {
-    console.log(key, value);
-  }
-
+  // Envoi du formulaire via POST
   fetch('http://localhost:5678/api/works', {
     method: 'POST',
     headers: {
@@ -253,7 +258,7 @@ document.getElementById('add_works').addEventListener('click', function (e) {
 });
 
 // ================================
-//   Catégorie pour le Formulaire
+//   Chargement des catégories dans le formulaire
 // ================================
 
 async function getCategoriesForForm() {
@@ -273,16 +278,20 @@ async function getCategoriesForForm() {
 }
 getCategoriesForForm();
 
-// Select
+// Ajout d'option dans le <select> des catégories
 function selectCat(data) {
   const form = document.getElementById("categoriesWork");
   const option = document.createElement("option");
 
-  option.value = data.id;               // ➤ ✅ ID numérique requis par l'API
-  option.textContent = data.name;       // Affiche le nom dans le select
+  option.value = data.id;
+  option.textContent = data.name;
 
   form.appendChild(option);
 }
+
+// ================================
+//     Aperçu de l’image importée
+// ================================
 
 document.addEventListener('DOMContentLoaded', () => {
   const input = document.getElementById('imageWork');
@@ -292,17 +301,18 @@ document.addEventListener('DOMContentLoaded', () => {
     const file = e.target.files[0];
     if (!file) return;
 
-    // 🔁 Supprimer l'image précédente si elle existe
+    // Supprime l'image précédente si existante
     const oldPreview = container.querySelector('.preview-image');
     if (oldPreview) oldPreview.remove();
 
+    // Création de l’aperçu
     const reader = new FileReader();
     reader.onload = (event) => {
       const imgTag = document.createElement('img');
       imgTag.src = event.target.result;
       imgTag.className = 'preview-image';
 
-      // Cacher les éléments initiaux
+      // Cacher les éléments de chargement
       document.querySelector('.icone_import').style.display = 'none';
       document.querySelector('.button_add_image').style.display = 'none';
       document.querySelector('.format_image').style.display = 'none';
@@ -314,6 +324,9 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 
+// ================================
+//   Activation du bouton "Valider"
+// ================================
 
 document.addEventListener('DOMContentLoaded', () => {
   const btnValider = document.getElementById('add_works');
@@ -321,6 +334,7 @@ document.addEventListener('DOMContentLoaded', () => {
   const titleInput = document.getElementById('titleWork');
   const categorySelect = document.getElementById('categoriesWork');
 
+  // Vérifie si tous les champs sont remplis pour activer le bouton
   function checkFormFields() {
     const imageOK = imageInput.files.length > 0;
     const titleOK = titleInput.value.trim() !== '';
@@ -337,5 +351,3 @@ document.addEventListener('DOMContentLoaded', () => {
   titleInput.addEventListener('input', checkFormFields);
   categorySelect.addEventListener('change', checkFormFields);
 });
-
-    

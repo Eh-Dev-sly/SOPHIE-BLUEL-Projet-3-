@@ -1,41 +1,55 @@
-const form = document.querySelector('form'); // Sélectionne l'élément formulaire
-const btnSubmit = document.getElementById('btn_submit'); // Sélectionne le bouton de soumission
-const errorId = document.querySelector('.error-alert'); // Sélectionne la div error_login
+// ==========================
+// Sélection des éléments du DOM
+// ==========================
+const form = document.querySelector('form'); // Formulaire de connexion
+const btnSubmit = document.getElementById('btn_submit'); // Bouton "Se connecter"
+const errorId = document.querySelector('.error-alert'); // Message d'erreur (affiché en cas d'échec)
 
-let loginEmail = document.getElementById('loginEmail'); // Sélectionne le champ de saisie de l'email
-let loginPassword = document.getElementById('loginPassword'); // Sélectionne le champ de saisie du mot de passe
+let loginEmail = document.getElementById('loginEmail'); // Champ email
+let loginPassword = document.getElementById('loginPassword'); // Champ mot de passe
 
-let email = loginEmail.value; // Initialise la variable email avec la valeur du champ email
-let password = loginPassword.value; // Initialise la variable mot de passe avec la valeur du champ mot de passe
+// Variables contenant les valeurs saisies (initialisées une fois)
+let email = loginEmail.value;
+let password = loginPassword.value;
 
-btnSubmit.addEventListener('click', (e) => { // Ajoute un écouteur d'événement au clic sur le bouton
-    e.preventDefault(); // Empêche le rechargement par défaut du formulaire
-    email = loginEmail.value;   // Met à jour la variable email avec la valeur actuelle saisie
-    password = loginPassword.value; // Met à jour la variable mot de passe avec la valeur actuelle saisie
-    
-    fetch('http://localhost:5678/api/users/login', { // Envoie une requête POST à l'API de connexion
-        method: 'POST', // Méthode HTTP utilisée
-        headers: { 'Content-Type': 'application/json' }, // Spécifie que le corps de la requête est en JSON
-        body: JSON.stringify({ // Convertit les données en format JSON
-            email: email, // Inclut l'email
-            password: password // Inclut le mot de passe
+// ==========================
+// Soumission du formulaire
+// ==========================
+btnSubmit.addEventListener('click', (e) => {
+    e.preventDefault(); // Empêche le rechargement de la page
+
+    // Met à jour les valeurs à chaque clic (utile si l'utilisateur modifie les champs)
+    email = loginEmail.value;
+    password = loginPassword.value;
+
+    // Envoie une requête POST à l’API de login
+    fetch('http://localhost:5678/api/users/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+            email: email,
+            password: password
         })
     })
-    .then(response => { // Traite la réponse du serveur
-        if (!response.ok) { // Vérifie si la réponse n'est pas un succès (code HTTP 2xx)
-            throw new Error(`Erreur HTTP : ${response.status}`); // Déclenche une erreur avec le code HTTP
+    .then(response => {
+        // Vérifie si la réponse n'est pas "OK" (code HTTP hors 2xx)
+        if (!response.ok) {
+            throw new Error(`Erreur HTTP : ${response.status}`); // Lance une erreur avec le code
         }
-        return response.json(); // Transforme la réponse en objet JSON
+        return response.json(); // Parse la réponse JSON
     })
-    .then(data => { // Traite les données JSON reçues
-        console.log('Réponse API :', data); // Affiche la réponse de l'API dans la console
-        localStorage.setItem('token', data.token); // Stockage du token pour la connexion
-        document.location.href="index.html";
+    .then(data => {
+        console.log('Réponse API :', data); // Affiche les données dans la console (debug)
+
+        // Enregistre le token d'authentification dans le localStorage
+        localStorage.setItem('token', data.token);
+
+        // Redirige vers la page d’accueil
+        document.location.href = "index.html";
     })
-    .catch(error => { // Gère les erreurs survenues pendant la requête
-        // alert('Erreur lors de la connexion. Veuillez vérifier vos identifiants.'); // Affiche une alerte pour l'utilisateur en cas d'erreur
-        errorId.style.display = 'flex';
-        form.style.marginTop = '0';
+    .catch(error => {
+        // Affiche un message d'erreur si les identifiants sont incorrects ou si l'API est inaccessible
+        errorId.style.display = 'flex'; // Rend visible la div contenant le message d'erreur
+        form.style.marginTop = '0'; // Ajuste l’espacement pour éviter un saut visuel
     });
 });
-
