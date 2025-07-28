@@ -252,8 +252,33 @@ document.getElementById('add_works').addEventListener('click', function (e) {
   })
   .then(res => res.json())
   .then(data => {
-    console.log('Upload réussi:', data);
-  })
+  console.log('Upload réussi:', data);
+
+  // Réinitialiser le formulaire
+  form.reset();
+  document.getElementById('imageWork').value = '';
+  document.getElementById('titleWork').value = '';
+
+  // Supprimer l’aperçu de l’image
+  const preview = document.querySelector('.preview-image');
+  if (preview) preview.remove();
+
+  // Réafficher les éléments de chargement
+  document.querySelector('.icone_import').style.display = 'flex';
+  document.querySelector('.button_add_image').style.display = 'flex';
+  document.querySelector('.format_image').style.display = 'flex';
+
+  // Enlever la classe active du bouton
+  document.getElementById('add_works').classList.remove('active');
+
+  // Optionnel : recharger les galeries
+  document.querySelector(".gallery").innerHTML = "";
+  getWorks();
+
+  const modalGallery = document.querySelector(".modal_gallery");
+  modalGallery.innerHTML = "";
+  getWorksForModal();
+})
   .catch(err => {
     console.error('Erreur lors de l\'upload:', err);
   });

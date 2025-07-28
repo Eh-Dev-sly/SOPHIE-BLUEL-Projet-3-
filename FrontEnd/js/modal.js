@@ -74,11 +74,14 @@ const closeModal = function (e) {
     modal1.querySelector('.js-modal-close')?.removeEventListener('click', closeModal);
     modal1.querySelector('.js-modal-stop')?.removeEventListener('click', stopPropagation);
 
-    // Fermeture avec délai pour transition (si besoin)
+    // Recharge la page après fermeture
+    // location.reload();
+
     window.setTimeout(function () {
         modal1 = null;
     }, 500);
 };
+
 
 // ==========================
 // NAVIGATION AU CLAVIER DANS LA MODAL
