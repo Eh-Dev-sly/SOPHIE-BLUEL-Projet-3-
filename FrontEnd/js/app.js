@@ -107,6 +107,22 @@ function figureWorkModal(data) {
   });
 }
 
+// ===========================================
+//     Ouverture de la modale d’édition
+// ===========================================
+
+document.querySelectorAll('.js-modal').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const modal = document.getElementById('modal_editor');
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-modal', 'true');
+  });
+});
+
+
 // ==========================
 //     Filtres par catégorie
 // ==========================
