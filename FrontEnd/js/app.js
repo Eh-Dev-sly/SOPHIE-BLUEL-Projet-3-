@@ -3,8 +3,8 @@
 // ===========================================
 
 // Appel initial de la fonction de récupération des œuvres
-let allWorks = []; // Stockage global des œuvres pour la galerie principale
 getWorks();
+let allWorks = []; // Stockage global des œuvres pour la galerie principale
 
 // Fonction de récupération des œuvres depuis l'API
 async function getWorks() {
@@ -30,7 +30,7 @@ function figureWork(data) {
 
   const figure = document.createElement("figure");
   figure.innerHTML = `
-    <img src="${data.imageUrl}" alt="${data.title}">
+    <img src=${data.imageUrl} alt=${data.title}>
     <figcaption>${data.title}</figcaption>
   `;
 
@@ -41,8 +41,8 @@ function figureWork(data) {
 //    Chargement des œuvres dans la modale
 // ===========================================
 
-let allWorksModal = []; // Stockage pour la galerie de la modale
 getWorksForModal();
+let allWorksModal = []; // Stockage pour la galerie de la modale
 
 // Fonction de récupération des œuvres pour la modale
 async function getWorksForModal() {
@@ -68,12 +68,12 @@ function figureWorkModal(data) {
   const figure = document.createElement("figure");
   figure.classList.add("gallery-item");
 
-  figure.innerHTML = `
-    <img src="${data.imageUrl}" alt="${data.title}">
+  figure.innerHTML = 
+    ` <img src="${data.imageUrl}" alt="${data.title}">
     <button type="button" class="delete-button" data-id="${data.id}">
       <img src="assets/icons/trash.svg" alt="Supprimer">
-    </button>
-  `;
+    </button> `
+    ;
 
   gallery.appendChild(figure);
 
@@ -97,6 +97,7 @@ function figureWorkModal(data) {
       if (response.ok) {
         figure.remove(); // Supprime la figure de la modale
         console.log(`Travail ${workId} supprimé.`);
+        console.log("→ Suppression en cours, id:", workId);
       } else {
         console.error("Erreur lors de la suppression :", response.status);
       }
@@ -106,29 +107,10 @@ function figureWorkModal(data) {
   });
 }
 
-// ===========================================
-//     Ouverture de la modale d’édition
-// ===========================================
-
-document.querySelectorAll('.js-modal').forEach(btn => {
-  btn.addEventListener('click', (e) => {
-    e.preventDefault();
-
-    const modal = document.getElementById('modal_editor');
-    modal.style.display = 'flex';
-    modal.setAttribute('aria-hidden', 'false');
-    modal.setAttribute('aria-modal', 'true');
-  });
-});
-
 // ==========================
 //     Filtres par catégorie
 // ==========================
 
-let allCategories = []; // Stockage des catégories
-getCategories();
-
-// Fonction de récupération des catégories depuis l’API
 async function getCategories() {
   const url = 'http://localhost:5678/api/categories';
 
@@ -144,6 +126,7 @@ async function getCategories() {
     console.error(error.message);
   }
 }
+getCategories();
 
 // Bouton "Tous" : affiche toutes les œuvres
 const btnAll = document.querySelector('.btn_all');
@@ -264,10 +247,6 @@ document.getElementById('add_works').addEventListener('click', function (e) {
 //   Chargement des catégories dans le formulaire
 // ================================
 
-let allCategoriesForForm = []; // Stockage catégories pour le formulaire
-getCategoriesForForm();
-
-// Fonction de récupération des catégories pour le formulaire
 async function getCategoriesForForm() {
   const url = 'http://localhost:5678/api/categories';
 
@@ -283,6 +262,7 @@ async function getCategoriesForForm() {
     console.error(error.message);
   }
 }
+getCategoriesForForm();
 
 // Ajout d'option dans le <select> des catégories
 function selectCat(data) {

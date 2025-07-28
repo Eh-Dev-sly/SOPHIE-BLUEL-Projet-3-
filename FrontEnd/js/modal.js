@@ -86,8 +86,15 @@ const focusInModal = function (e) {
 // ==========================
 
 // Boutons d'ouverture des modales
-document.querySelectorAll('.js-modal').forEach(a => {
-    a.addEventListener('click', openModal);
+document.querySelectorAll('.js-modal').forEach(btn => {
+  btn.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    const modal = document.getElementById('modal_editor');
+    modal.style.display = 'flex';
+    modal.setAttribute('aria-hidden', 'false');
+    modal.setAttribute('aria-modal', 'true');
+  });
 });
 
 // Escape => fermer modal ; Tab => gestion du focus
@@ -155,19 +162,7 @@ document.querySelector('.js-modal2-close')?.addEventListener('click', function (
 //       BOUTON RETOUR
 // ==========================
 
-// Version 1 : cacher modal2, réactiver contenu de modal1
-document.querySelector('.js-modal-return')?.addEventListener('click', function (e) {
-    e.preventDefault();
-
-    modal2.style.display = 'none';
-    modal2.setAttribute('aria-hidden', 'true');
-    modal2.removeAttribute('aria-modal');
-    modal2.setAttribute('inert', '');
-
-    modal1.querySelector('.modal_editor-content').style.display = 'flex';
-});
-
-// Version 2 : retour complet à modal1 (focus, affichage, accessibilité)
+// retour complet à modal1 (focus, affichage, accessibilité)
 document.querySelector('.js-modal-return')?.addEventListener('click', function (e) {
     e.preventDefault();
 
