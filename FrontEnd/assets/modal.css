@@ -317,7 +317,8 @@
 
 .preview-image{
     width: 129px;
-    height: 193px;
+    max-height: 169px;
+    object-fit: contain;
 }
 
 .modal_add_work-content input,

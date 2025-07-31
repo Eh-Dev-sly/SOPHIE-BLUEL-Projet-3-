@@ -75,7 +75,7 @@ const closeModal = function (e) {
     modal1.querySelector('.js-modal-stop')?.removeEventListener('click', stopPropagation);
 
     // Recharge la page après fermeture
-    // location.reload();
+    //location.reload();
 
     window.setTimeout(function () {
         modal1 = null;
