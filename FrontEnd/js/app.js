@@ -179,7 +179,7 @@ document.addEventListener("DOMContentLoaded", () => {
   if (token) {
     document.querySelector('.editor_mode').style.display = 'flex';
     document.querySelector('.btn_editor').style.display = 'flex';
-    document.querySelector('header').style.margin = '38px 50px 150px';
+    document.querySelector('header').style.margin = '38px 150px 150px';
     document.querySelector('.login').style.display = 'none';
     document.querySelector('.logout').style.display = 'flex';
     document.querySelector('.filter').style.display = 'none';
