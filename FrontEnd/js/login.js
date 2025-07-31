@@ -37,7 +37,6 @@ btnSubmit.addEventListener('click', (e) => {
         return response.json(); // Parse la réponse JSON
     })
     .then(data => {
-        console.log('Réponse API :', data); // debug
 
         localStorage.setItem('token', data.token);
 

@@ -15,12 +15,10 @@ async function getWorks() {
     if (!response.ok) throw new Error(`Response status: ${response.status}`);
 
     allWorks = await response.json();
-    console.log(allWorks);
 
     // Génère une figure pour chaque œuvre dans la galerie principale
     allWorks.forEach(figureWork);
   } catch (error) {
-    console.error(error.message);
   }
 }
 
@@ -53,11 +51,9 @@ async function getWorksForModal() {
     if (!response.ok) throw new Error(`Response status: ${response.status}`);
 
     allWorksModal = await response.json();
-    console.log(allWorksModal);
 
     allWorksModal.forEach(figureWorkModal);
   } catch (error) {
-    console.error(error.message);
   }
 }
 
@@ -95,14 +91,14 @@ function figureWorkModal(data) {
       });
 
       if (response.ok) {
+        document.querySelector(".gallery").innerHTML = "";
+        getWorks(); // recharge la galerie principale
+        const modalGallery = document.querySelector(".modal_gallery");
         figure.remove(); // Supprime la figure de la modale
-        console.log(`Travail ${workId} supprimé.`);
-        console.log("→ Suppression en cours, id:", workId);
       } else {
-        console.error("Erreur lors de la suppression :", response.status);
       }
+
     } catch (error) {
-      console.error("Erreur réseau :", error);
     }
   });
 }
@@ -135,11 +131,9 @@ async function getCategories() {
     if (!response.ok) throw new Error(`Response status: ${response.status}`);
 
     allCategories = await response.json();
-    console.log(allCategories);
 
     allCategories.forEach(btnFilters); // Génère un bouton filtre par catégorie
   } catch (error) {
-    console.error(error.message);
   }
 }
 getCategories();
@@ -226,7 +220,6 @@ document.getElementById('add_works').addEventListener('click', function (e) {
     titleNewWork.value.trim() === '' ||
     document.getElementById('categoriesWork').value === ''
   ) {
-    console.log("Erreur : Remplir toutes les cases");
     document.querySelector('.error-alert').style.display = 'flex';
     document.querySelector('.add_work').style.margin = '0 0 50px 0';
     document.querySelector('.modal_add_work-content').style.paddingBottom = '0';
@@ -253,7 +246,6 @@ document.getElementById('add_works').addEventListener('click', function (e) {
   })
   .then(res => res.json())
   .then(data => {
-  console.log('Upload réussi:', data);
 
   // Réinitialiser le formulaire
   form.reset();
@@ -281,7 +273,6 @@ document.getElementById('add_works').addEventListener('click', function (e) {
   getWorksForModal();
 })
   .catch(err => {
-    console.error('Erreur lors de l\'upload:', err);
   });
 });
 
@@ -297,11 +288,9 @@ async function getCategoriesForForm() {
     if (!response.ok) throw new Error(`Response status: ${response.status}`);
 
     allCategoriesForForm = await response.json();
-    console.log(allCategoriesForForm);
 
     allCategoriesForForm.forEach(selectCat);
   } catch (error) {
-    console.error(error.message);
   }
 }
 getCategoriesForForm();
